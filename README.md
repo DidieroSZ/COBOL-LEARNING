@@ -1,5 +1,5 @@
 # Repositorio COBOL
 
-Este repositorio está destinado a alamacenar material de cobol y ejercicios realcaionado con el lenguaje orientadoa negocio.
+Repositorio dedicado a recursos, prácticas y ejercicios de COBOL enfocados en el aprendizaje y dominio del lenguaje.
 
 ---
