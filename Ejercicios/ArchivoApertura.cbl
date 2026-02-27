@@ -1,0 +1,26 @@
+      * Author:
+       IDENTIFICATION DIVISION.
+           PROGRAM-ID. YOUR-PROGRAM-NAME.
+
+       ENVIRONMENT DIVISION.
+           INPUT-OUTPUT SECTION.
+
+           FILE-CONTROL.
+           SELECT ESTUDIANTES-ARCHIVO ASSIGN TO "estudiantes.txt"
+               ORGANIZATION IS SEQUENTIAL.
+
+       DATA DIVISION.
+           FILE SECTION.
+           FD ESTUDIANTES-ARCHIVO.
+               01 ESTUDIANTES-REGISTRO.
+                   05 CAMPO1 PIC X(25).
+
+           WORKING-STORAGE SECTION.
+
+
+
+       PROCEDURE DIVISION.
+       MAIN-PROCEDURE.
+            DISPLAY "ARCHIVO estudiantes.txt"
+            STOP RUN.
+       END PROGRAM YOUR-PROGRAM-NAME.
