@@ -29,10 +29,22 @@
            05 POS PIC 9(03).
            05 LARGE-FORMAT PIC 9(03) VALUE 132.
            05 PHRASE-NOMBRE PIC A(40) VALUE SPACES.
-           05 VALOR PIC 99.
            05 TEMP5 PIC X(5).
            05 TEMP7 PIC X(7).
 
+       01 COLUMNAS.
+            05 COL-GRADO    PIC X(7).
+            05 COL-CARRERA  PIC X(7).
+            05 COL-MAT1     PIC X(5).
+            05 COL-MAT2     PIC X(5).
+            05 COL-MAT3     PIC X(5).
+            05 COL-MAT4     PIC X(5).
+            05 COL-MAT5     PIC X(5).
+            05 COL-MAT6     PIC X(5).
+            05 COL-MAT7     PIC X(5).
+            05 COL-MAT8     PIC X(5).
+            05 COL-MAT9     PIC X(5).
+            05 COL-MAT10     PIC X(5).
 
        01 WS-STATUS PIC XX.
        01 WS-CLAVE PIC 9(08).
@@ -118,10 +130,6 @@
            INITIALISE LINEA-TEMP.
            MOVE LINEA-TABLA TO LINEA-TEMP.
            WRITE LINEA-TEMP.
-
-           INITIALISE LINEA-TEMP.
-           MOVE SPACES TO LINEA-TEMP.
-           WRITE LINEA-TEMP.
            EXIT.
 
        GENERAL-PROCEDURE.
@@ -165,10 +173,43 @@
            EXIT.
 
        MOVER-DATOS-PROCEDURE.
-           MOVE WS-GRADO TO VALOR.
-           COMPUTE LONG-WORD = FUNCTION LENGTH(" GRADO ").
-           COMPUTE POS = (LONG-WORD / 2) - 1.
-           MOVE WS-GRADO TO TEMP(POS: LONG-WORD).
+           INITIALIZE COL-GRADO.
+           INITIALIZE POS.
+           COMPUTE POS = (7 / 2).
+           MOVE WS-GRADO TO COL-GRADO(POS:2).
+
+           INITIALIZE COL-CARRERA.
+           MOVE WS-CARRERA TO COL-CARRERA(POS:2).
+
+           INITIALIZE COL-MAT1.
+           MOVE WS-MAT-1 TO COL-MAT1(2:2).
+
+           INITIALIZE COL-MAT2.
+           MOVE WS-MAT-2 TO COL-MAT2(2:2).
+
+           INITIALIZE COL-MAT3.
+           MOVE WS-MAT-3 TO COL-MAT3(2:2).
+
+           INITIALIZE COL-MAT4.
+           MOVE WS-MAT-4 TO COL-MAT4(2:2).
+
+           INITIALIZE COL-MAT5.
+           MOVE WS-MAT-5 TO COL-MAT5(2:2).
+
+           INITIALIZE COL-MAT6.
+           MOVE WS-MAT-6 TO COL-MAT6(2:2).
+
+           INITIALIZE COL-MAT7.
+           MOVE WS-MAT-7 TO COL-MAT7(2:2).
+
+           INITIALIZE COL-MAT8.
+           MOVE WS-MAT-8 TO COL-MAT8(2:2).
+
+           INITIALIZE COL-MAT9.
+           MOVE WS-MAT-9 TO COL-MAT9(2:2).
+
+           INITIALIZE COL-MAT10.
+           MOVE WS-MAT-10 TO COL-MAT10(2:2).
 
            INITIALISE LINEA-TEMP.
            STRING
@@ -176,29 +217,29 @@
                "|"
                WS-NOMBRE DELIMITED BY SIZE
                "|"
-               WS-GRADO DELIMITED BY SIZE
+               COL-GRADO DELIMITED BY SIZE
                "|"
-               WS-CARRERA DELIMITED BY SIZE
+               COL-CARRERA DELIMITED BY SIZE
                "|"
-               WS-MAT-1 DELIMITED BY SIZE
+               COL-MAT1 DELIMITED BY SIZE
                "|"
-               WS-MAT-2 DELIMITED BY SIZE
+               COL-MAT2 DELIMITED BY SIZE
                "|"
-               WS-MAT-3 DELIMITED BY SIZE
+               COL-MAT3 DELIMITED BY SIZE
                "|"
-               WS-MAT-4 DELIMITED BY SIZE
+               COL-MAT4 DELIMITED BY SIZE
                "|"
-               WS-MAT-5 DELIMITED BY SIZE
+               COL-MAT5 DELIMITED BY SIZE
                "|"
-               WS-MAT-6 DELIMITED BY SIZE
+               COL-MAT6 DELIMITED BY SIZE
                "|"
-               WS-MAT-7 DELIMITED BY SIZE
+               COL-MAT7 DELIMITED BY SIZE
                "|"
-               WS-MAT-8 DELIMITED BY SIZE
+               COL-MAT8 DELIMITED BY SIZE
                "|"
-               WS-MAT-9 DELIMITED BY SIZE
+               COL-MAT9 DELIMITED BY SIZE
                "|"
-               WS-MAT-10 DELIMITED BY SIZE
+               COL-MAT10 DELIMITED BY SIZE
            INTO LINEA-TEMP.
            WRITE LINEA-TEMP.
 
