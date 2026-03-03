@@ -1,0 +1,159 @@
+
+REPORTE.
+En ENVIRONMENT DIVISION.
+INPUT-OUTPUT SECTION.
+FILE-CONTROL
+     SELECT ARCESTD  ASSIGN TO ARCESTE.
+     SELECT LISTADO ASSIGN TO REPORTE.
+En DATA DIVISION 
+FILE SECTION.
+      FD
+
+
+
+      FD LISTADO 
+            BLOCK 0 RECORDS 
+            RECORD CONTAINS 132
+            CHARACTERS RECORDING MODE F
+            LABEL ARE STANDARD.
+      01 REG-LISTADO       PIC X(132). 
+
+En Working-Storage Section 
+01 WKS-VARIABLES.
+      05 WKS-FECHA-SISTEMA         PIC 9(08). 
+      05 WKS-FECHA-SISTEMA-CAMPOS  REDEFINES WKS-FECHA-SISTEMA.
+            10 WKS-FECSIS-YYYY          PIC 9(04).
+            10 WKS-FECSIS-MM           PIC 9(02).
+            10 WKS-FECSIS-DD             PIC 9(02).
+01 WKS-CONTADORES.
+      05 WKS-NOLINEAS           PIC 9(02).
+      05 WKS-NOPAG                PIC 9(04).
+
+01 SWITCHES.
+      05 SW-ARCESTD              PIC X(02).
+             88 SW-EOF-ENTRADA      VALUE ‘SI’.
+             88 SW-NEOF-ENTRADA   VALUE ‘NO’.
+*
+*EMPIEZAN ENCABEZADOS.
+*
+01 WKS-ENCABEZADOS.
+* 
+      05 WKS-ENC-1.
+           10 FILLER                      PIC X(06) VALUE ‘PCB999’.
+            10 FILLER                     PIC X(48)      VALUE SPACES .
+           10 FILLER                      PIC X(16) VALUE ´BECA  COBOL  2026’.
+            10 FILLER                     PIC X(47)      VALUE SPACES.
+            10 FILLER                     PIC X(11) VALUE ‘PAGINA NO. ‘.
+            10 WSK-ENC1-NOPAG     PIC ZZ99.
+ 
+           10 FILLER                       PIC X(52) VALUES SPACES.
+            10 FILLER                       PIC X(14) VALUE ‘SESIONES COBOL’.
+
+            10 FILLER                       PIC X(53) VALUES SPACES.  
+            10 WKS-ENC-NOPAG   PIC 9(06) VALUE ZZZ,999.
+      05 WKS-ENC-2. 
+            10 FILLER                       PIC X(113) VALUE SPACES.
+            10 FILLER                      PIC X(07)    VALUE ‘FECHA : ‘
+            10 WSK-ENC2-FECHA  PIC X(11).
+             10 WKS-ENC2-FECHA-R REDEFINES WSK-ENC2-FECHA.
+                  15 WKS-ENC2-DD  PIC 9(02).
+                  15 FILLER                 PIC X(01) VALUE ‘/’. 
+                  15 WKS-ENC2-MM PIC X(03).  
+                  15 FILLER                 PIC X(01) VALUE ‘/’.
+                   15 WKS-ENC2-YY PIC 9(04).
+      05 WKS-BLANCOS.
+            10 FILLER                       PIC X(132) VALUES ALL SPACES.
+
+     05 WKS-GUIONES.
+            10 FILLER                       PIC X(132) VALUES ALL ‘-‘.
+
+     05 WKS-LINERROR .  
+            10 LINERROR                  PIC (132)  VALUE ‘ ARCHIVO VACIO ‘.
+     
+	
+PROCEDURE DIVISION.
+         PERFORM  100000-INICIO
+         PERFORM 200000-IMPRIME
+         PERFORM 300000-CIERRA-ARCHIVO
+         STOP RUN.
+*
+100000-INICIO.
+       PERFORM 100100-INICIALIZA-VARIABLES
+       PERFORM 100200-OBTIENE-FECHA       
+       PERFORM 100300-ABRE-ARCHIVO.
+
+100000-INICIALIZA-VARIABLES.
+       MOVE 61           TO    WKS-NOLINEAS
+       MOVE 0              TO   WKS-NOPAG.
+
+100100-OBTIENE-FECHA.
+       ACCEPT WKS-FECHA-SISTEMA    FROM   DATE
+       SET SW-NEOF-ENTRADA   TO TRUE.
+   
+100200-ABRE-ARCHIVO.          
+       OPEN   INPUT ARCESTD
+                     OUTPUT LISTADO.
+
+200000-IMPRIME.
+     PERFORM 200800-LEE-ESTUDIANTES
+
+     IF SW-EOF-ENTRADA 
+         DISPLAY ‘ARCHIVO VACIO ‘
+         WRITE LINERROR.
+
+     PERFORM 200100-DESPLIEGA-INFORMACION UNTIL SW-EOF-ENTRADA.
+
+
+200100-DESPLIEGA-INFORMACION.      
+IF WKS-NOLINEAS > 60 
+     PERFORM 200200-IMPRIME-ENCABEZADOS .    
+     PERFORM 200300-IMPRIME-DETALLE
+     PERFORM 200800-LEE-ESTUDIANTES.
+
+
+200800-LEE-ESTUDIANTES.
+      READ ARCESTD   AT END
+                 SET SW-EOF-ENTRADA TO TRUE.
+
+
+
+200200-IMPRIME-ENCABEZADOS.
+*
+       MOVE ZEROS                          TO   WKS-NOLINEAS
+        MOVE SPACES                        TO   REG-LISTADO
+        ADD  1                                      TO  WKS-NOPAG
+        MOVE WKS-NOPAG               TO   WKS-ENC-NOPAG   
+        WRITE REG-LISTADO FROM  WKS-ENC-1 AFTER PAGE
+         ADD  1                                      TO WKS-NOLINEAS
+*
+        MOVE SPACES                        TO   REG-LISTADO
+        MOVE WKS-FECSIS-YYYY      TO   WKS-ENC2-YY  
+        MOVE WKS-FECSIS-MM        TO   WKS-ENC2-MM     
+         MOVE WKS-FECSIS-DD         TO   WKS-ENC2-DD   
+        WRITE REG-LISTADO FROM  WKS-ENC-2 AFTER 1
+        ADD  1                                      TO WKS-NOLINEAS 
+*
+        MOVE SPACES                        TO   REG-LISTADO
+        WRITE REG-LISTADO FROM  WKS-BLANCOS AFTER 2
+        ADD  2                                     TO WKS-NOLINEAS
+*
+        MOVE SPACES                        TO   REG-LISTADO
+        WRITE REG-LISTADO FROM  WKS-GUIONES  AFTER 1
+        ADD  1                                     TO WKS-NOLINEAS.
+
+200300-IMPRIME-LINDETALLE-
+*
+        MOVE SPACES                              TO   REG-LISTADO
+        MOVE REG-ENT-CLAVE               TO  WKS-LINDET-CLAVE 
+        MOVE REG-ENT-NOMBRE           TO  WKS-LINDET-NOMBRE
+        WRITE REG-LISTADO FROM  WKS-LINDETALLE  AFTER 1
+         ADD  1                                      TO WKS-NOLINEAS
+*
+
+
+        
+
+300000-CIERRA-ARCHIVO.
+       DISPLAY ‘ TERMINE PROCESO DE IMPRESION DE ESTUDIANTES ‘
+        CLOSE LISTADO 
+                     ARCESTD.

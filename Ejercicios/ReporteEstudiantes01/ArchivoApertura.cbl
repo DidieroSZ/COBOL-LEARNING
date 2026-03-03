@@ -1,11 +1,3 @@
-      ******************************************************************
-      * Author: DIDERO
-      * Purpose: MAKE A REPORT FILE NAMED estudiantes.txt
-      * DEPENDENCIES:
-      *    Headers -> HeaderMaker.cbl
-      *    Main -> ArchivoApertura.cbl
-      * Tectonics: cobc
-      ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. EJERCICIO-FILE-OPEN.
 
@@ -66,7 +58,7 @@
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            OPEN OUTPUT ESTUDIANTES-ARCHIVO.
-           PERFORM HEADER-MAKER-PROCEDURE.
+      *     PERFORM HEADER-MAKER-PROCEDURE.
            PERFORM GENERAL-PROCEDURE 2 TIMES.
            CLOSE ESTUDIANTES-ARCHIVO.
            STOP RUN.
