@@ -4,7 +4,6 @@
       * DEPENDENCIES:
       *    Headers -> HeaderMaker.cbl
       *    Main -> ArchivoApertura.cbl
-      * Tectonics: cobc
       ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. EJERCICIO-FILE-OPEN.
@@ -94,8 +93,6 @@
            EXIT.
 
        100100-HEADER-MAKER.
-      *     MOVE LINEA-PUNTEADA TO LINEA-TEMP.
-      *     WRITE LINEA-TEMP.
            PERFORM 100101-L-PUNTEADA-MAKER.
 
            MOVE SPACES TO LINEA-TEMP.
@@ -273,7 +270,7 @@
            DISPLAY "CONTINUAR ---- SI".
            DISPLAY "DETENER ---- NO".
            ACCEPT SWITCHES.
-           MOVE FUNCTION UPPER-CASE(SWITCHES) TO SWITCHES
+           MOVE FUNCTION UPPER-CASE(SWITCHES) TO SWITCHES.
            EXIT.
 
        END PROGRAM EJERCICIO-FILE-OPEN.
