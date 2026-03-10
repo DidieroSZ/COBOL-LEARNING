@@ -1,12 +1,10 @@
       ******************************************************************
       * Author: DIDERO.
       * Date: 04/03/2026.
-      * Purpose: MAKE A REPORT FILE NAMED "REP-EST-MAT.txt" BASED ON
-      *          INFORMTION FROM FILE "estudiantes.txt" AND CALLING
-      *          FILE NAMED DATA-MATERIAS-SEARCH.cbl
+      * Purpose: MAKE A REPORT FILE NAMED "repote-est.txt".
       ******************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. DATA-CALL-DOC.
+       PROGRAM-ID. EJERCICIO-FILE-OPEN.
 
        ENVIRONMENT DIVISION.
            INPUT-OUTPUT SECTION.
@@ -15,7 +13,7 @@
                    ORGANIZATION IS LINE SEQUENTIAL
                    FILE STATUS WS-STATUS-ORI.
 
-               SELECT REP-EST ASSIGN TO "REP-EST-MAT.txt"
+               SELECT REP-EST ASSIGN TO "repote-est.txt"
                    ORGANIZATION IS LINE SEQUENTIAL
                    FILE STATUS WS-STATUS-DES.
 
@@ -89,8 +87,16 @@
            01 COLUMNAS.
                 05 COL-GRADO    PIC X(9).
                 05 COL-CARRERA  PIC X(11).
-                05 COL-MATERIA  PIC X(32).
-                05 COL-PROFE    PIC X(32).
+                05 COL-MAT1     PIC X(5).
+                05 COL-MAT2     PIC X(5).
+                05 COL-MAT3     PIC X(5).
+                05 COL-MAT4     PIC X(5).
+                05 COL-MAT5     PIC X(5).
+                05 COL-MAT6     PIC X(5).
+                05 COL-MAT7     PIC X(5).
+                05 COL-MAT8     PIC X(5).
+                05 COL-MAT9     PIC X(5).
+                05 COL-MAT10     PIC X(5).
 
            01 WS-CAMPOS.
                05 WS-CLAVE PIC 9(08).
@@ -107,10 +113,6 @@
                05 WS-MAT-8 PIC X(02).
                05 WS-MAT-9 PIC X(02).
                05 WS-MAT-10 PIC X(02).
-
-           01 WS-CALL.
-               05 WS-MATERIA PIC X(32).
-               05 WS-PROFE PIC X(32).
 
            01 SWITCHES.
                05 WS-FIN PIC XX VALUE "N".
@@ -192,9 +194,25 @@
                "|"
                "  CARRERA  " DELIMITED BY SIZE
                "|"
-               "MATERIA" DELIMITED BY SIZE
+               "MAT01" DELIMITED BY SIZE
                "|"
-               "PROFESOR" DELIMITED BY SIZE
+               "MAT02" DELIMITED BY SIZE
+               "|"
+               "MAT03" DELIMITED BY SIZE
+               "|"
+               "MAT04" DELIMITED BY SIZE
+               "|"
+               "MAT05" DELIMITED BY SIZE
+               "|"
+               "MAT06" DELIMITED BY SIZE
+               "|"
+               "MAT07" DELIMITED BY SIZE
+               "|"
+               "MAT08" DELIMITED BY SIZE
+               "|"
+               "MAT09" DELIMITED BY SIZE
+               "|"
+               "MAT10" DELIMITED BY SIZE
                "|"
            INTO LINEA-TEMP.
            WRITE LINEA-TEMP.
@@ -236,16 +254,9 @@
            EXIT.
 
        100501-MOVE-DATA.
-           INITIALIZE WS-CAMPOS.
            MOVE EST-REG-DOC TO WS-CAMPOS.
            ADD 1 TO WS-COUNTER.
-           DISPLAY WS-MAT-1.
-           MOVE SPACES TO WS-MATERIA.
-           MOVE SPACES TO WS-PROFE.
-
-           CALL "DATA-MATERIAS-SEARCH" USING
-           WS-MAT-1 WS-MATERIA WS-PROFE.
-
+           DISPLAY WS-COUNTER.
            PERFORM 100502-FORMAT-DATA.
            EXIT.
        100502-FORMAT-DATA.
@@ -259,11 +270,35 @@
            COMPUTE POS = (11 / 2).
            MOVE WS-CARRERA TO COL-CARRERA(POS:2).
 
-           INITIALIZE COL-MATERIA.
-           MOVE WS-MATERIA TO COL-MATERIA.
+           INITIALIZE COL-MAT1.
+           MOVE WS-MAT-1 TO COL-MAT1(2:2).
 
-           INITIALIZE COL-PROFE.
-           MOVE WS-PROFE TO COL-PROFE.
+           INITIALIZE COL-MAT2.
+           MOVE WS-MAT-2 TO COL-MAT2(2:2).
+
+           INITIALIZE COL-MAT3.
+           MOVE WS-MAT-3 TO COL-MAT3(2:2).
+
+           INITIALIZE COL-MAT4.
+           MOVE WS-MAT-4 TO COL-MAT4(2:2).
+
+           INITIALIZE COL-MAT5.
+           MOVE WS-MAT-5 TO COL-MAT5(2:2).
+
+           INITIALIZE COL-MAT6.
+           MOVE WS-MAT-6 TO COL-MAT6(2:2).
+
+           INITIALIZE COL-MAT7.
+           MOVE WS-MAT-7 TO COL-MAT7(2:2).
+
+           INITIALIZE COL-MAT8.
+           MOVE WS-MAT-8 TO COL-MAT8(2:2).
+
+           INITIALIZE COL-MAT9.
+           MOVE WS-MAT-9 TO COL-MAT9(2:2).
+
+           INITIALIZE COL-MAT10.
+           MOVE WS-MAT-10 TO COL-MAT10(2:2).
 
            INITIALISE LINEA-TEMP.
            STRING
@@ -275,9 +310,25 @@
                "|"
                COL-CARRERA DELIMITED BY SIZE
                "|"
-               COL-MATERIA DELIMITED BY SIZE
+               COL-MAT1 DELIMITED BY SIZE
                "|"
-               COL-PROFE DELIMITED BY SIZE
+               COL-MAT2 DELIMITED BY SIZE
+               "|"
+               COL-MAT3 DELIMITED BY SIZE
+               "|"
+               COL-MAT4 DELIMITED BY SIZE
+               "|"
+               COL-MAT5 DELIMITED BY SIZE
+               "|"
+               COL-MAT6 DELIMITED BY SIZE
+               "|"
+               COL-MAT7 DELIMITED BY SIZE
+               "|"
+               COL-MAT8 DELIMITED BY SIZE
+               "|"
+               COL-MAT9 DELIMITED BY SIZE
+               "|"
+               COL-MAT10 DELIMITED BY SIZE
                "|"
            INTO LINEA-TEMP.
            WRITE LINEA-TEMP.
@@ -306,4 +357,4 @@
 
            EXIT.
 
-       END PROGRAM DATA-CALL-DOC.
+       END PROGRAM EJERCICIO-FILE-OPEN.
