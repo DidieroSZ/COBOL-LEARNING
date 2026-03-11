@@ -97,24 +97,19 @@
                05 WS-NOMBRE PIC X(40).
                05 WS-GRADO PIC X(02).
                05 WS-CARRERA PIC X(02).
-               05 WS-MAT-1 PIC X(02).
-               05 WS-MAT-2 PIC X(02).
-               05 WS-MAT-3 PIC X(02).
-               05 WS-MAT-4 PIC X(02).
-               05 WS-MAT-5 PIC X(02).
-               05 WS-MAT-6 PIC X(02).
-               05 WS-MAT-7 PIC X(02).
-               05 WS-MAT-8 PIC X(02).
-               05 WS-MAT-9 PIC X(02).
-               05 WS-MAT-10 PIC X(02).
+               05 WS-MATERIAS.
+                   10 WS-MAT PIC X(02) OCCURS 10 TIMES.
 
            01 WS-CALL.
                05 WS-MATERIA PIC X(32).
                05 WS-PROFE PIC X(32).
+               05 WS-I PIC 99 VALUE 1.
 
            01 SWITCHES.
                05 WS-FIN PIC XX VALUE "N".
                    88 FIN-ARCHIVO VALUE "S".
+               05 WS-FOUND PIC X VALUE "N".
+                   88 MATERIA-FOUND VALUE "S".
 
        PROCEDURE DIVISION.
 
@@ -238,15 +233,27 @@
        100501-MOVE-DATA.
            INITIALIZE WS-CAMPOS.
            MOVE EST-REG-DOC TO WS-CAMPOS.
+           
            ADD 1 TO WS-COUNTER.
-           DISPLAY WS-MAT-1.
-           MOVE SPACES TO WS-MATERIA.
-           MOVE SPACES TO WS-PROFE.
+           MOVE 1 TO WS-I.
+           MOVE "N" TO WS-FOUND.
 
-           CALL "DATA-MATERIAS-SEARCH" USING
-           WS-MAT-1 WS-MATERIA WS-PROFE.
-
-           PERFORM 100502-FORMAT-DATA.
+               PERFORM UNTIL WS-I > 10 OR MATERIA-FOUND
+    
+                   MOVE SPACES TO WS-MATERIA
+                   MOVE SPACES TO WS-PROFE
+    
+                   CALL "DATA-MATERIAS-SEARCH" USING
+                   WS-MAT(WS-I) WS-MATERIA WS-PROFE
+                   DISPLAY WS-MATERIA
+                   IF WS-MATERIA NOT = SPACES
+                       SET MATERIA-FOUND TO TRUE
+                   ELSE 
+                       ADD 1 TO WS-I
+                   END-IF
+               END-PERFORM.
+                  
+               PERFORM 100502-FORMAT-DATA.
            EXIT.
        100502-FORMAT-DATA.
            INITIALIZE COL-GRADO.
