@@ -176,7 +176,16 @@
            COMPUTE LONG-WORD = FUNCTION LENGTH("NOMBRE ALUMNOS").
            COMPUTE POS = (40 / 2) - (LONG-WORD / 2).
            MOVE "NOMBRE ALUMNOS" TO PHRASE-NOMBRE(POS: LONG-WORD).
-           INITIALISE LINEA-TEMP.
+
+           COMPUTE LONG-WORD = FUNCTION LENGTH("MATERIA").
+           COMPUTE POS = (20 / 2) - (LONG-WORD / 2).
+           MOVE "MATERIA" TO COL-MATERIA(POS: LONG-WORD).
+
+           COMPUTE LONG-WORD = FUNCTION LENGTH("PROFESOR").
+           COMPUTE POS = (20 / 2) - (LONG-WORD / 2).
+           MOVE "PROFESOR" TO COL-PROFE(POS: LONG-WORD).
+
+           INITIALIzE LINEA-TEMP.
 
            STRING
                " CLAVE  " DELIMITED BY SIZE
@@ -187,9 +196,9 @@
                "|"
                "  CARRERA  " DELIMITED BY SIZE
                "|"
-               "MATERIA" DELIMITED BY SIZE
+               COL-MATERIA DELIMITED BY SIZE
                "|"
-               "PROFESOR" DELIMITED BY SIZE
+               COL-PROFE DELIMITED BY SIZE
                "|"
            INTO LINEA-TEMP.
            WRITE LINEA-TEMP.

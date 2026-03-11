@@ -6,13 +6,13 @@
 PCB999                                                    BECA COBOL 2026                                             PAGINA NO.0001
 ____________________________________________________________________________________________________________________________________
 
- CLAVE  |            NOMBRE ALUMNOS              |  GRADO  |  CARRERA  |MATERIA|PROFESOR|
+ CLAVE  |            NOMBRE ALUMNOS              |  GRADO  |  CARRERA  |     MATERIA                    |     PROFESOR
 ____________________________________________________________________________________________________________________________________
 21002814|DIEGO ALEJANDRO MARTINEZ LOPEZ          |   11    |    25     |MATEMATICAS                     |CAMILA SOFIA PAREDES
-21002875|SOFIA FERNANDA RAMIREZ TORRES           |   11    |    25     |                                |
-21002812|CARLOS EDUARDO HERNANDEZ GARCIA         |   11    |    25     |                                |
+21002875|SOFIA FERNANDA RAMIREZ TORRES           |   11    |    25     |FISICA                          |MIGUEL ANGEL HERRERA
+21002812|CARLOS EDUARDO HERNANDEZ GARCIA         |   11    |    25     |INGLES                          |FERNANDO JAVIER ORTE
 21002823|VALERIA GUADALUPE SANCHEZ MORALES       |   11    |    25     |                                |
-21002859|LUIS ANGEL RODRIGUEZ NAVARRO            |   11    |    25     |                                |
+21002859|LUIS ANGEL RODRIGUEZ NAVARRO            |   11    |    25     |INFORMATICA                     |RICARDO ANTONIO GOME
 
 No. Estudiantes: 05
 ************************************************************************************************************************************

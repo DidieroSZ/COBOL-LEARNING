@@ -34,9 +34,13 @@
        PERFORM MAIN-PROCEDURE.
        MAIN-PROCEDURE.
             OPEN INPUT MAT-DOC.
+
             INITIALIZE MAT-CLAVE.
             INITIALIZE MAT-NOMBRE.
             INITIALIZE MAT-PROFE.
+            
+            MOVE "N" TO WS-FIN.
+
             PERFORM UNTIL FIN-ARCHIVO
                READ MAT-DOC
                    AT END
