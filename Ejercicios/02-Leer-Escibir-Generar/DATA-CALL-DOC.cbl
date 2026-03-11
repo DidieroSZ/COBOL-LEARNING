@@ -19,6 +19,9 @@
                    ORGANIZATION IS LINE SEQUENTIAL
                    FILE STATUS WS-STATUS-DES.
 
+               SELECT REP-NO-MAT ASSIGN TO "REP-NO-MAT.txt"
+                   ORGANIZATION IS LINE SEQUENTIAL.
+
        DATA DIVISION.
            FILE SECTION.
            FD DOC-EST.
@@ -37,6 +40,8 @@
                    05 EST-REG-MATERIA-8 PIC 9(02).
                    05 EST-REG-MATERIA-9 PIC 9(02).
                    05 EST-REG-MATERIA-10 PIC 9(02).
+           FD REP-NO-MAT.
+               01 LINEA-NO-MAT PIC X(80).
 
            FD REP-EST.
                01 LINEA-TEMP PIC X(132).
@@ -135,6 +140,7 @@
        100100-OPEN-FILES.
            OPEN INPUT DOC-EST.
            OPEN OUTPUT REP-EST.
+           OPEN OUTPUT REP-NO-MAT.
       *    (00 = OK)  (35 = NOT FOUND)  (10 = END FILE)
            IF WS-STATUS-ORI NOT = "00"
            DISPLAY "ERROR AL ABRIR ARCHIVO ORIGEN"
@@ -239,7 +245,7 @@
            INITIALIZE WS-CAMPOS.
            MOVE EST-REG-DOC TO WS-CAMPOS.
            ADD 1 TO WS-COUNTER.
-           DISPLAY WS-MAT-1.
+
            MOVE SPACES TO WS-MATERIA.
            MOVE SPACES TO WS-PROFE.
 

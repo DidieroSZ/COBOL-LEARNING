@@ -19,6 +19,9 @@
                    ORGANIZATION IS LINE SEQUENTIAL
                    FILE STATUS WS-STATUS-DES.
 
+               SELECT REP-NO-MAT ASSIGN TO "REP-NO-MAT.txt"
+                   ORGANIZATION IS LINE SEQUENTIAL.
+
        DATA DIVISION.
            FILE SECTION.
            FD DOC-EST.
@@ -37,7 +40,8 @@
                    05 EST-REG-MATERIA-8 PIC 9(02).
                    05 EST-REG-MATERIA-9 PIC 9(02).
                    05 EST-REG-MATERIA-10 PIC 9(02).
-
+           FD REP-NO-MAT.
+               01 LINEA-NO-MAT PIC X(80).
            FD REP-EST.
                01 LINEA-TEMP PIC X(132).
 
@@ -130,6 +134,7 @@
        100100-OPEN-FILES.
            OPEN INPUT DOC-EST.
            OPEN OUTPUT REP-EST.
+           OPEN OUTPUT REP-NO-MAT.
       *    (00 = OK)  (35 = NOT FOUND)  (10 = END FILE)
            IF WS-STATUS-ORI NOT = "00"
            DISPLAY "ERROR AL ABRIR ARCHIVO ORIGEN"
@@ -247,23 +252,37 @@
            MOVE 1 TO WS-I.
            MOVE "N" TO WS-FOUND.
 
-               PERFORM UNTIL WS-I > 10 OR MATERIA-FOUND
+           PERFORM UNTIL WS-I > 10 OR MATERIA-FOUND
+               MOVE SPACES TO WS-MATERIA
+               MOVE SPACES TO WS-PROFE
     
-                   MOVE SPACES TO WS-MATERIA
-                   MOVE SPACES TO WS-PROFE
-    
-                   CALL "DATA-MATERIAS-SEARCH" USING
-                   WS-MAT(WS-I) WS-MATERIA WS-PROFE
-                   DISPLAY WS-MATERIA
-                   IF WS-MATERIA NOT = SPACES
-                       SET MATERIA-FOUND TO TRUE
-                   ELSE 
-                       ADD 1 TO WS-I
-                   END-IF
-               END-PERFORM.
-                  
-               PERFORM 100502-FORMAT-DATA.
+               CALL "DATA-MATERIAS-SEARCH" USING
+               WS-MAT(WS-I) WS-MATERIA WS-PROFE
+
+               IF WS-MATERIA NOT = SPACES
+                   SET MATERIA-FOUND TO TRUE
+               ELSE 
+                   ADD 1 TO WS-I
+               END-IF
+           END-PERFORM.
+           IF WS-MATERIA = SPACES
+               PERFORM 100510-NO-MATERIA
+           ELSE
+               PERFORM 100502-FORMAT-DATA
+           END-IF.
            EXIT.
+
+       100510-NO-MATERIA.
+           INITIALIZE LINEA-NO-MAT
+           STRING
+                WS-CLAVE
+                " | "
+                WS-NOMBRE
+           DELIMITED BY SIZE
+           INTO LINEA-NO-MAT
+           WRITE LINEA-NO-MAT.
+           EXIT.
+
        100502-FORMAT-DATA.
            INITIALIZE COL-GRADO.
            INITIALIZE POS.
@@ -319,7 +338,7 @@
            END-IF.
            CLOSE DOC-EST.
            CLOSE REP-EST.
-
+           CLOSE REP-NO-MAT.
            EXIT.
 
        END PROGRAM DATA-CALL-DOC.
