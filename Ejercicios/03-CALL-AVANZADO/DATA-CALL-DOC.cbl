@@ -248,7 +248,6 @@
            INITIALIZE WS-CAMPOS.
            MOVE EST-REG-DOC TO WS-CAMPOS.
            
-           ADD 1 TO WS-COUNTER.
            MOVE 1 TO WS-I.
            MOVE "N" TO WS-FOUND.
 
@@ -268,6 +267,7 @@
            IF WS-MATERIA = SPACES
                PERFORM 100510-NO-MATERIA
            ELSE
+               ADD 1 TO WS-COUNTER
                PERFORM 100502-FORMAT-DATA
            END-IF.
            EXIT.
