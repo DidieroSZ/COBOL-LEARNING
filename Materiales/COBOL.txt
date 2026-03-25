@@ -1,0 +1,28 @@
+wsl --install -d Debian
+sudo apt update
+sudo apt install gnucobol
+
+En Visual Code 
+ctrl + shift + p
+
+
+Crear objetos de programa:
+	cobc -x NombreObjetoPrograma.cbl
+
+Crear Objeto de Programa Call:
+	cobc -m NombreObjetoPrograma.cbl
+
+
+Ejecutar Objeto crado:
+
+./ NombreObjetoPrograma
+
+
+
+
+LINUX COMANDS:
+cat archivo.txt
+
+
+Para archivos largos:
+less archivo.txt
