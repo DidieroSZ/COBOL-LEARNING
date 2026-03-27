@@ -2,7 +2,7 @@
                                             DIDIERCO INDUSTRIES UNIFIED OPERATING SYSTEM
                                               COPYRIGHT 1990 ─ 2080 DIDIERCO INDUSTRIES
 
-************************************************************************************************************************************
-                                            DIDIERCO INDUSTRIES UNIFIED OPERATING SYSTEM
-                                              COPYRIGHT 1990 ─ 2080 DIDIERCO INDUSTRIES
-
+NAME: DIario Prueba
+==============================
+CREATION DATE:
+     | 260327

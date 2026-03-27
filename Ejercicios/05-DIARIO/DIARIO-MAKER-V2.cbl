@@ -87,19 +87,12 @@
        PERFORM 100000-INICIO.
 
        100000-INICIO.
-      *     PERFORM 100100-OPEN-FILES.
-      *    DISPLAY FUNCTION LENGTH(TITULO-02).
-           PERFORM 100200-MENU-OP.
-           PERFORM 100300-HAPPY-PAD.
-           PERFORM 100400-HEADER-MAKER.
+           PERFORM 100100-MENU-OP.
            PERFORM 100600-CLOSE-FILES.
        EXIT.
-       
-       100100-OPEN-FILES.
-           OPEN OUTPUT DIARIO.
-       EXIT.
-       
-       100200-MENU-OP.
+      
+      *----------- SERIE: 100100 -----------
+       100100-MENU-OP.
            DISPLAY X"1B" "[1;32m" WITH NO ADVANCING.
            DISPLAY L-AST.
            DISPLAY "* DIDIERCO INDUSTRIES UNIFIED OPERATING SYSTEM *".
@@ -109,86 +102,62 @@
            DISPLAY "* MENU DE OPCIONES:                            *". 
            DISPLAY "*                   ========================== *". 
            DISPLAY "* +--- [ 1 ] CREAR DIARIO.                     *".
-           DISPLAY "* +--+ [ 2 ] OBTENER REGISTRO.                 *".
-           DISPLAY "* |  +--- [ 1 ] LISTAR TODOS LOS REGISTROS.    *".
-           DISPLAY "* |  +--- [ 2 ] LISTAR REGISTRO POR ID.        *".
-           DISPLAY "* |                                            *".
-           DISPLAY "* +--- [ 3 ] CREAR REGISTRO.                   *".
-           DISPLAY "* |                                            *".
+           DISPLAY "* +--- [ 2 ] CREAR REGISTRO.                   *".
            DISPLAY "* +------------------------------- [ 0 ] SALIR *".
            DISPLAY "*                                              *".
            DISPLAY L-AST.
            DISPLAY "OPCION: " WITH NO ADVANCING.
            ACCEPT MENU-OP.
+           DISPLAY X"1B" "[0m".
+           PERFORM 100120-EVALUATE-MENU.
        EXIT.
-       100300-HAPPY-PAD.
-           OPEN OUTPUT DIARIO.
+       100120-EVALUATE-MENU.
            EVALUATE MENU-OP
-               WHEN 0
-                   PERFORM 100600-CLOSE-FILES
                WHEN 1
-                   PERFORM 100301-CREATION-DIARY-PROCCES
+                   PERFORM 100130-CREATE-DIARY
                WHEN OTHER
                   PERFORM 100600-CLOSE-FILES
            END-EVALUATE.
        EXIT.
-       100301-CREATION-DIARY-PROCCES.
-           PERFORM 301-100-VERIFICATION-DIARY.
-      *     DISPLAY WS-FSTA-DIARIO.
-           
-           PERFORM 301-100-DATE-GET.
-       EXIT.
-       301-100-VERIFICATION-DIARY.
-           IF WS-FSTA-DIARIO IS EQUAL 00 THEN
-             DISPLAY X"1B" "[1;30;41m"
-             DISPLAY L-AST
-             DISPLAY "*              ¡ADVETENCIA!                    *"
-             DISPLAY "* YA EXISTE UN DIARIO EN LOS REGISTROS         *"
-             DISPLAY "* CREAR UNO NUEVO SUPONE PERDIDA DE            *"
-             DISPLAY "*        DATOS DEFINITIVA.                     *"
-             DISPLAY "*            ¿DESEAS CONTINUAR?                *"
-             DISPLAY "* +--- [ 1 ] SI.                               *"
-             DISPLAY "* +--- [ 2 ] NO.                               *"
-             DISPLAY "* +------------------------------- [ 0 ] SALIR *"
-             DISPLAY "OPCION: " WITH NO ADVANCING
-             ACCEPT MENU-OP
-             DISPLAY X"1B" "[0m"
-             PERFORM 301-101-RECREATE
-           END-IF.
-           IF WS-FSTA-DIARIO IS EQUAL 35 THEN
-               OPEN OUTPUT DIARIO
-           END-IF.
-           DISPLAY WS-FSTA-DIARIO.
-       EXIT.
-       301-101-RECREATE.
-       EVALUATE MENU-OP
-           WHEN 0
-               PERFORM 100600-CLOSE-FILES
-           WHEN 1
-               DISPLAY "INGRESA EL NOMBRE DEL DIARIO: " 
-               WITH NO ADVANCING
-               ACCEPT DIARY-NAME
-           WHEN 2
-               PERFORM 100000-INICIO
-           WHEN OTHER
-               PERFORM 100600-CLOSE-FILES
-       END-EVALUATE.
-       EXIT.
-       301-100-DATE-GET.
+       100130-CREATE-DIARY.
+           OPEN OUTPUT DIARIO.
            ACCEPT DATE-SYSTEM FROM DATE.
-       EXIT.
-       100400-HEADER-MAKER.
-           PERFORM 100401-LI-MA-AST.
-           PERFORM 100402-LI-MA-TITLE.
-           PERFORM 100403-LI-MA-BLANCA.
+           DISPLAY "INGRESA EL NOMBRE DEL DIARIO: " WITH NO ADVANCING.
+           ACCEPT DIARY-NAME.
+
+           PERFORM 100-131-HEADER-MAKER.
        EXIT.
 
-       100401-LI-MA-AST.
+       100-131-HEADER-MAKER.
+           PERFORM 100-132-LI-MA-AST.
+           PERFORM 100-133-LI-MA-TITLE.
+           PERFORM 100-134-LI-MA-BLANCA.
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "NAME: " DELIMITED BY SIZE
+               DIARY-NAME DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+           INITIALIZE LINEA-W-DIARIO.
+           MOVE "==============================" TO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+           INITIALIZE LINEA-W-DIARIO.
+           MOVE "CREATION DATE:" TO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "     | " DELIMITED BY SIZE
+               DATE-SYSTEM DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+       EXIT.
+
+       100-132-LI-MA-AST.
            INITIALIZE LINEA-W-DIARIO.
            MOVE LINEA-AST TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
        EXIT.
-       100402-LI-MA-TITLE.
+       100-133-LI-MA-TITLE.
            INITIALIZE LINEA-W-DIARIO.
            MOVE TITULO-01 TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
@@ -196,14 +165,15 @@
            MOVE TITULO-02 TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
        EXIT.
-       100403-LI-MA-BLANCA.
+       100-134-LI-MA-BLANCA.
            INITIALIZE LINEA-W-DIARIO.
            MOVE LINEA-BLANCA TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
        EXIT.
+      *----------- SERIE: 100100 -----------       
+       
 
        100600-CLOSE-FILES.
-           DISPLAY X"1B" "[0m".
            CLOSE DIARIO.
            STOP RUN.
        EXIT.
