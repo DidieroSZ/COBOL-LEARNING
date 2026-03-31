@@ -1,91 +1,30 @@
-+--------------------------------------------------------------------------------------------------------------------------------+
 **********************************************************************************************************************************          
                                             DIDIERCO INDUESTRIES UNIFIED OPERATING SYSTEM
                                               COPYRIGHT 1990 ─ 2080 DIDIERCO INDUESTRIES
 
 NAME: Didieros diario
 ==============================
-CREATION DATE:
+CREATION DATE/TIME:
     ├ MARTES, MARZO 22, 2026
-    └ 08:58:24 - AM
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-|*2027-03-24-T281:09:01:56      Titulo Nota          ■ 10001                                                                     |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-|*2027-03-24-T281:09:01:56      Titulo Nota          ■ 10001                                                                     |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-|*2027-03-24-T281:09:01:56      Titulo Nota          ■ 10001                                                                     |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-|*2027-03-24-T281:09:01:56      Titulo Nota          ■ 10001                                                                     |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-|                                                                                                                                |
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-**********************************************************************************************************************************
-* 2027-03-24-T281:09:01:56      Titulo Nota          ■ 10001
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
+    └ 08:58:24 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-DIARIO-MAKER → Crea un archivo mastro con nombre personalizado tipo texto (.txt). 
-El cual podra ser accedido mediante nombre y seguir consultando y gurdando registros por día.
-
-Validaciones:
-    Creación de diario.
-        - Nombre
-        - Verifica si hay otro.
+REGISTROS > 
+ID     DATE         TIME                    TITLE                  INFORMATION                                            
+----   ----------   --------                --------------------   -----------------------             
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                                                                
+T281 | 2027-03-24 | 09:01:56 .............: Mi nuevo comienzo    | (342 char -> 3 lines)
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text 
+ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived 
+not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 
+1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
+Aldus PageMaker including versions of Lorem Ipsum.
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+T281 | 2027-03-24 | 09:01:56 .............: What is Lorem Ipsum? | (342 char -> 3 lines)
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text 
+ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived 
+not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 
+1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
+Aldus PageMaker including versions of Lorem Ipsum.
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

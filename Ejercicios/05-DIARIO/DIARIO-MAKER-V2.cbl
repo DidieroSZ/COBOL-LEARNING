@@ -25,13 +25,19 @@
            05 MENU-OP PIC 9 VALUE 0.
            05 DIARY-NAME PIC X(20) VALUE SPACES.
        01 WS-DATE-V.
+      *                YY MM DD 
            05 DATE-SYSTEM PIC X(6).
            05 WS-DAY PIC X(15) VALUE "LUNES".
            05 WS-DAY-NAME PIC 99 VALUE ZEROS. 
            05 WS-MONTH PIC X(15) VALUE "ENERO". 
            05 WS-YEAR PIC 9(4) VALUE 2026. 
-           05 WS-HORA PIC X(8) VALUE "00:00:00".
-           05 WS-TIME PIC XX VALUE "AM".
+           05 WS-HORA PIC X(8) VALUE ZEROS.
+           05 WS-TIME.
+               10 WS-TIME-HH PIC 99 VALUE 00.
+               10 FILLER PIC X VALUE ":".
+               10 WS-TIME-MM PIC 99 VALUE 00.
+               10 FILLER PIC X VALUE ":".
+               10 WS-TIME-SS PIC 99 VALUE 00.
 
 
        01 WS-FILE-STATUS.
@@ -41,6 +47,7 @@
            05 LINEAS-FORMATO.
                10 LINEA-AST PIC X(132) VALUE ALL "*".
                10 LINEA-BLANCA PIC X(132) VALUE SPACES.
+               10 LINEA-DIAGONAL PIC X(132) VALUE ALL "/".
 
            05 TITULOS.
                10 TITULO-01.
@@ -65,6 +72,9 @@
                    15 FILLER PIC X(1) VALUE SPACE.
                    15 INDUSTRIES PIC A(10) VALUES "INDUSTRIES".
                    15 FILLER PIC X(43) VALUE SPACE.
+               10 TITULO-REGISTRO.
+                   15 FILLER PIC A VALUE "T".
+                   15 
 
            05 SCREEN-FORMAT.
                10 L-AST PIC X(48) VALUE ALL '*'.
@@ -103,6 +113,8 @@
            DISPLAY "*                   ========================== *". 
            DISPLAY "* +--- [ 1 ] CREAR DIARIO.                     *".
            DISPLAY "* +--- [ 2 ] CREAR REGISTRO.                   *".
+           DISPLAY "* +--- [ 3 ] OBTENER REGISTRO.                 *".
+           DISPLAY "* +--- [ 4 ] DESPLEGAR DIARIO.                 *".
            DISPLAY "* +------------------------------- [ 0 ] SALIR *".
            DISPLAY "*                                              *".
            DISPLAY L-AST.
@@ -121,43 +133,69 @@
        EXIT.
        100130-CREATE-DIARY.
            OPEN OUTPUT DIARIO.
-           ACCEPT DATE-SYSTEM FROM DATE.
            DISPLAY "INGRESA EL NOMBRE DEL DIARIO: " WITH NO ADVANCING.
            ACCEPT DIARY-NAME.
 
            PERFORM 100-131-HEADER-MAKER.
+           PERFORM 100-132-CREATE-REGISTRO.
        EXIT.
-
+      *----------- SERIE: 100100  PARRAFO: 100-131 -----------
        100-131-HEADER-MAKER.
-           PERFORM 100-132-LI-MA-AST.
-           PERFORM 100-133-LI-MA-TITLE.
-           PERFORM 100-134-LI-MA-BLANCA.
-           INITIALIZE LINEA-W-DIARIO.
-           STRING 
-               "NAME: " DELIMITED BY SIZE
-               DIARY-NAME DELIMITED BY SIZE
-           INTO LINEA-W-DIARIO.
-           WRITE LINEA-W-DIARIO.
-           INITIALIZE LINEA-W-DIARIO.
-           MOVE "==============================" TO LINEA-W-DIARIO.
-           WRITE LINEA-W-DIARIO.
-           INITIALIZE LINEA-W-DIARIO.
-           MOVE "CREATION DATE:" TO LINEA-W-DIARIO.
-           WRITE LINEA-W-DIARIO.
-           INITIALIZE LINEA-W-DIARIO.
-           STRING 
-               "     | " DELIMITED BY SIZE
-               DATE-SYSTEM DELIMITED BY SIZE
-           INTO LINEA-W-DIARIO.
-           WRITE LINEA-W-DIARIO.
-       EXIT.
+           PERFORM 131-100-GET-DATE.
+           PERFORM 131-200-LI-MA-AST.
+           PERFORM 131-300-LI-MA-TITLE.
+           PERFORM 131-400-LI-MA-BLANCA.
 
-       100-132-LI-MA-AST.
+           PERFORM 131-500-DATOS-DIARIO.
+
+           PERFORM 131-400-LI-MA-BLANCA.
+           PERFORM 131-600-LI-MA-DIAGONAL.
+           PERFORM 131-400-LI-MA-BLANCA.
+           INITIALIZE LINEA-W-DIARIO.
+           MOVE "RECORDS > " TO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "ID" DELIMITED BY SIZE
+               "     " DELIMITED BY SIZE
+               "DATE" DELIMITED BY SIZE
+               "         " DELIMITED BY SIZE
+               "TIME" DELIMITED BY SIZE
+               "                    " DELIMITED BY SIZE
+               "TITLE" DELIMITED BY SIZE
+               "                  " DELIMITED BY SIZE
+               "INFORMATION" DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "----" DELIMITED BY SIZE
+               "   " DELIMITED BY SIZE
+               "----------" DELIMITED BY SIZE
+               "   " DELIMITED BY SIZE
+               "--------" DELIMITED BY SIZE
+               "                " DELIMITED BY SIZE
+               "--------------------" DELIMITED BY SIZE
+               "   " DELIMITED BY SIZE
+               "-----------------------" DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+           PERFORM 131-600-LI-MA-DIAGONAL.
+       EXIT.
+       131-100-GET-DATE.
+           ACCEPT DATE-SYSTEM FROM DATE.
+           ACCEPT WS-HORA FROM TIME.
+           MOVE WS-HORA(1:2) TO WS-TIME-HH.
+           MOVE WS-HORA(3:2) TO WS-TIME-MM.
+           MOVE WS-HORA(5:2) TO WS-TIME-SS.
+           DISPLAY WS-TIME.
+       EXIT.
+       131-200-LI-MA-AST.
            INITIALIZE LINEA-W-DIARIO.
            MOVE LINEA-AST TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
        EXIT.
-       100-133-LI-MA-TITLE.
+       131-300-LI-MA-TITLE.
            INITIALIZE LINEA-W-DIARIO.
            MOVE TITULO-01 TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
@@ -165,11 +203,59 @@
            MOVE TITULO-02 TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
        EXIT.
-       100-134-LI-MA-BLANCA.
+       131-400-LI-MA-BLANCA.
            INITIALIZE LINEA-W-DIARIO.
            MOVE LINEA-BLANCA TO LINEA-W-DIARIO.
            WRITE LINEA-W-DIARIO.
        EXIT.
+       131-500-DATOS-DIARIO.
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "NAME: " DELIMITED BY SIZE
+               FUNCTION UPPER-CASE(DIARY-NAME) DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+
+           INITIALIZE LINEA-W-DIARIO.
+           MOVE "==============================" TO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+
+           INITIALIZE LINEA-W-DIARIO.
+           MOVE "CREATION DATE - TIME:" TO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "    | " DELIMITED BY SIZE
+               DATE-SYSTEM DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "    | " DELIMITED BY SIZE
+               WS-TIME DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+       EXIT.
+       131-600-LI-MA-DIAGONAL.
+           INITIALIZE LINEA-W-DIARIO.
+           MOVE LINEA-DIAGONAL TO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+       EXIT.
+       
+      *----------- SERIE: 100100  PARRAFO: 100-131 -----------
+
+      *----------- SERIE: 100100  PARRAFO: 100-132 -----------
+       100-132-CREATE-REGISTRO.
+           INITIALIZE LINEA-W-DIARIO.
+           STRING 
+               "    | " DELIMITED BY SIZE
+               DATE-SYSTEM DELIMITED BY SIZE
+           INTO LINEA-W-DIARIO.
+           WRITE LINEA-W-DIARIO.
+       EXIT.
+      *----------- SERIE: 100100  PARRAFO: 100-132 -----------
       *----------- SERIE: 100100 -----------       
        
 
